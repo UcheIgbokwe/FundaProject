@@ -17,7 +17,7 @@ Application was built using clean architecture, SOLID principles.
 
 To startup the API project, follow these steps:
 
-* Navigate to the [src/API](API) project folder
+* Navigate to the [API](src/API) project folder
   `cd src/API`
   `dotnet build`
 * Run the command below and listen on https://localhost:7024/swagger:
@@ -29,7 +29,7 @@ To startup the API project, follow these steps:
 The Project is designed to displayed most listed objects for sale by a real estate agent.
 Displaying the top 10 ranked by agents and also including garden.
 
-The HTTP Service has three methods:
+The [HTTP Service](src/Infrastructure/Services/HttpServices.cs)  has three methods:
 - GetAllPropertyData : This retrieves all property data under the funda network using the provided URL.
 
 - GetAgentsRankedByMostProperties : This streamlines the data gotten from `GetAllPropertyData` based on the zo query provided to a limit of top 10 agents.
