@@ -21,17 +21,17 @@ Application was built using clean architecture, SOLID principles.
 To startup the API project, follow these steps:
 
 * Navigate to the [API](src/API) project folder
-  `cd src/API`
-  `dotnet build`
+  * `cd src/API`
+  * `dotnet build`
 * Run the command below and listen on https://localhost:7024/swagger:
-  `dotnet watch run`
+  * `dotnet watch run`
 
 To run the test, follow these steps:
 
 * Navigate to the [Tests](src/Tests) project folder
-  `cd src/Tests`
-  `dotnet build`
-  `dotnet test`
+  * `cd src/Tests`
+  * `dotnet build`
+  * `dotnet test`
 
 
 
