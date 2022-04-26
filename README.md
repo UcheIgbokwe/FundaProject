@@ -11,9 +11,12 @@ Application was built using clean architecture, SOLID principles.
 * .NET 6.0
 * Http Client Factory
 * Polly policies (To handle Http call retries)
+* XUnit
 * Ensure port 7024 and 5156 are available
 
 ## SETUP
+
+> **Note**: Begin by cloning the project and navigate into the FundaProject folder. Ensure to have .NET 6 running on your device.
 
 To startup the API project, follow these steps:
 
@@ -22,6 +25,13 @@ To startup the API project, follow these steps:
   `dotnet build`
 * Run the command below and listen on https://localhost:7024/swagger:
   `dotnet watch run`
+
+To run the test, follow these steps:
+
+* Navigate to the [Tests](src/Tests) project folder
+  `cd src/Tests`
+  `dotnet build`
+  `dotnet test`
 
 
 
