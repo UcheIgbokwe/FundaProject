@@ -1,0 +1,23 @@
+<template>
+  <require from="./styles.css"></require>
+  <require from="toastr/build/toastr.min.css"></require>
+  
+  <nav class="navbar navbar-light bg-light border-bottom fixed-top" role="navigation">
+    <a class="navbar-brand" href="funda.nl">
+      <img width="101" height="36" alt="Funda" 
+        src="https://assets.fstatic.nl/master_3884/assets/components/logo/fundawonen-logo.svg"
+        loading="lazy"
+      >
+      <span t="[prepend]appName"></span>
+    </a>
+  </nav>
+
+  <loading-indicator loading.bind="router.isNavigating || api.isRequesting"></loading-indicator>
+
+  <div class="container-md">
+    <div class="row">
+      <router-view class="col-sm-7 col-md-8"></router-view>
+    </div>
+  </div>
+</template>
+

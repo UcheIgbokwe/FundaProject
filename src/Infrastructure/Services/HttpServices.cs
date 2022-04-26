@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Domain.Entities;
 using Infrastructure.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -17,39 +18,37 @@ namespace src.Infrastructure.Services
     {
         private readonly IConfiguration _config;
         private readonly IHttpClientFactory _clientFactory;
-        private readonly ILogger<HttpServices> _logger;
-        public HttpServices(IConfiguration config, IHttpClientFactory clientFactory,  ILogger<HttpServices> logger)
+        public HttpServices(IConfiguration config, IHttpClientFactory clientFactory)
         {
-            _logger = logger;
             _clientFactory = clientFactory;
             _config = config;
         }
-        public async Task<List<ListedPropertyByAgentModel>> GetAgentsRankedByMostProperties()
+        public async Task<List<TopAgentsModel>> GetAgentsRankedByMostProperties()
         {
             var type = _config["FundaApi:Type"];
             var zo = _config["FundaApi:Zo"];
             var listedProperties = await GetAllPropertyData(type, zo);
             var result = listedProperties.GroupBy(item => item.MakelaarId)
-                                        .Select(group => new ListedPropertyByAgentModel
+                                        .Select(group => new TopAgentsModel
                                         {
                                             MakelaarId = group.First().MakelaarId,
                                             MakelaarNaam = group.First().MakelaarNaam,
-                                            Objects = group.ToList()
-                                        }).OrderByDescending(c => c.Objects?.Count).ToList();
+                                            NumberOfProperties = group.Count()
+                                        }).OrderByDescending(c => c.NumberOfProperties).Take(10).ToList();
             return result;
         }
-        public async Task<List<ListedPropertyByAgentModel>> GetAgentsRankedByMostPropertiesAndGarden()
+        public async Task<List<TopAgentsModel>> GetAgentsRankedByMostPropertiesAndGarden()
         {
             var type = _config["FundaApi:Type"];
             var zoWithGarden = _config["FundaApi:ZoWithGarden"];
             var listedProperties = await GetAllPropertyData(type, zoWithGarden);
             var result = listedProperties.GroupBy(item => item.MakelaarId)
-                                        .Select(group => new ListedPropertyByAgentModel
+                                        .Select(group => new TopAgentsModel
                                         {
                                             MakelaarId = group.First().MakelaarId,
                                             MakelaarNaam = group.First().MakelaarNaam,
-                                            Objects = group.ToList()
-                                        }).OrderByDescending(c => c.Objects?.Count).ToList();
+                                            NumberOfProperties = group.Count()
+                                        }).OrderByDescending(c => c.NumberOfProperties).Take(10).ToList();
             return result;
         }
         public async Task<List<PropertyDataModel>> GetAllPropertyData(string type, string zo)

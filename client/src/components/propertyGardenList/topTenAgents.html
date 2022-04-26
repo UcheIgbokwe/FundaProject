@@ -1,0 +1,23 @@
+<template>
+  <require from="./topTenAgents.css"></require>
+  <h1>Top Ten Agents With Garden</h1>
+  <table class="table table-striped" aurelia-table="data.bind: gardenReports; display-data.bind: $displayData">
+      <thead>
+      <tr>
+          <th id="name">Agent Name</th>
+          <th id="makelaarId">Agent Id</th>
+          <th id="numberOfProperties" aut-sort="key: numberOfProperties;">No of Properties</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr repeat.for="gardenReport of $displayData">
+          <td>${gardenReport.makelaarNaam}</td>
+          <td>${gardenReport.makelaarId}</td>
+          <td>${gardenReport.numberOfProperties}</td>
+      </tr>
+      </tbody>
+  </table>
+</template>
+
+
+

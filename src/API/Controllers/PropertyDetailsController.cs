@@ -11,7 +11,7 @@ using src.Domain.Request;
 namespace src.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PropertyDetailsController : Controller
     {
         private readonly IHttpServices _httpServices;

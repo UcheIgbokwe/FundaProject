@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using src.API.Controllers;
@@ -24,20 +25,20 @@ namespace src.Tests.UnitTests.API.Controllers
         public async Task GetAgentsRankedByMostPropertiesAndGarden_Should_Not_Return_Null()
         {
             _httpService.Setup(repo => repo.GetAgentsRankedByMostPropertiesAndGarden())
-                            .ReturnsAsync(new List<ListedPropertyByAgentModel>());
+                            .ReturnsAsync(new List<TopAgentsModel>());
             var controller = new PropertyDetailsController(_httpService.Object);
 
             var result = await controller.GetAgentsRankedByMostPropertiesAndGarden();
 
             var resultIsNotNull = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(new List<ListedPropertyByAgentModel>(), resultIsNotNull.Value);
+            Assert.Equal(new List<TopAgentsModel>(), resultIsNotNull.Value);
         }
 
         [Fact]
         public async Task GetAgentsRankedByMostPropertiesAndGarden_Should_Return_200()
         {
             _httpService.Setup(repo => repo.GetAgentsRankedByMostPropertiesAndGarden())
-                            .ReturnsAsync(new List<ListedPropertyByAgentModel>());
+                            .ReturnsAsync(new List<TopAgentsModel>());
             var controller = new PropertyDetailsController(_httpService.Object);
 
             var result = await controller.GetAgentsRankedByMostPropertiesAndGarden();
@@ -50,20 +51,20 @@ namespace src.Tests.UnitTests.API.Controllers
         public async Task GetAgentsRankedByMostProperties_Should_Not_Return_Null()
         {
             _httpService.Setup(repo => repo.GetAgentsRankedByMostProperties())
-                            .ReturnsAsync(new List<ListedPropertyByAgentModel>());
+                            .ReturnsAsync(new List<TopAgentsModel>());
             var controller = new PropertyDetailsController(_httpService.Object);
 
             var result = await controller.GetAgentsRankedByMostProperties();
 
             var resultIsNotNull = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(new List<ListedPropertyByAgentModel>(), resultIsNotNull.Value);
+            Assert.Equal(new List<TopAgentsModel>(), resultIsNotNull.Value);
         }
 
         [Fact]
         public async Task GetAgentsRankedByMostProperties_Should_Return_200()
         {
             _httpService.Setup(repo => repo.GetAgentsRankedByMostProperties())
-                            .ReturnsAsync(new List<ListedPropertyByAgentModel>());
+                            .ReturnsAsync(new List<TopAgentsModel>());
             var controller = new PropertyDetailsController(_httpService.Object);
 
             var result = await controller.GetAgentsRankedByMostProperties();

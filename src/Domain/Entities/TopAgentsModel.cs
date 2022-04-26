@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace src.Domain.Entities
+namespace Domain.Entities
 {
-    public class ListedPropertyByAgentModel
+    public class TopAgentsModel
     {
         public int MakelaarId { get; set; }
         public string? MakelaarNaam { get; set; }
-        public List<PropertyDataModel>? Objects { get; set; }
+        public int NumberOfProperties { get; set; }
     }
 }
