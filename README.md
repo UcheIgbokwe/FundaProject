@@ -9,7 +9,7 @@ Application was built using clean architecture, SOLID principles.
 ## DEPENDENCIES/PREREQUISITIES
 
 * .NET 6.0
-* Aurelia
+* Aurelia Framework
 * NodeJs 
 * Http Client Factory
 * Polly policies (To handle Http call retries)
@@ -19,7 +19,7 @@ Application was built using clean architecture, SOLID principles.
 ## SETUP
 
 > **Note**: Begin by cloning the project and navigate into the FundaProject folder. Ensure to have .NET 6, NodeJs v10 or above running on your device. 
-Install a standard Git client eg GitBash and run "npm install -g aurelia-cli" on the Git client.
+Run `npm install -g aurelia-cli` on any CLI. [SETUP](https://aurelia.io/docs/tutorials/creating-a-todo-app#setup)
 
 # API:
 To startup the API project, follow these steps:
@@ -28,7 +28,7 @@ To startup the API project, follow these steps:
   * `cd src/API`
   * `dotnet build`
 * Run the command below and listen on https://localhost:7024/swagger:
-  * `dotnet watch run`
+  * `dotnet run`
 
 To run the test, follow these steps:
 
@@ -41,16 +41,16 @@ To run the test, follow these steps:
 To startup the CLIENT project, follow these steps:
 
 * Navigate to the [client](client) project folder
-  `cd client`
+  * `cd client`
 * Run the code below to install dependencies.
-  `npm install`  
+  * `npm install`  
 * Startup the CLIENT project
-  `npm start`  
+  * `npm start`  
 
 * To view top ten agents ranked by number of properties.
-  `http://localhost:8080/`
+  * `http://localhost:8080/`
 * To view top ten agents with properties that have gardens.
-  `http://localhost:8080/tuin`  
+  * `http://localhost:8080/tuin`  
 
 
 

@@ -1,5 +1,4 @@
 using src.API.Extensions;
-using src.API.Middleware;
 using src.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,8 +25,6 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseCors("corsapp");
-
-app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 
