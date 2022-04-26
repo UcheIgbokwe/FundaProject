@@ -12,7 +12,7 @@ namespace src.Infrastructure.Helpers
 
     public AppException(string message) : base(message)
     {
-        throw new HttpStatusException((int)HttpStatusCode.BadRequest, message);
+        throw new HttpStatusException((int)HttpStatusCode.InternalServerError, message);
     }
 
     public AppException(string message, Exception innerException) : base(message, innerException)

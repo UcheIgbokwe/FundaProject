@@ -46,6 +46,10 @@ The [HTTP Service](src/Infrastructure/Services/HttpServices.cs)  has three metho
 
 - GetAgentsRankedByMostPropertiesAndGarden : This streamlines the data gotten from `GetAllPropertyData` based on the zo query provided to a limit of top 10 agents. The difference between this and `GetAgentsRankedByMostProperties` is in the zo query.
 
+- The [Polly service](src/API/Extensions/ApplicationServiceExtensions.cs) handles retry policies for gateway time outs and service unavailable.
+
+- Exception handlers are setup to manage too many requests, unauthorized and generic error responses from the API.
+
 
 
 
