@@ -24,6 +24,12 @@ export class TestPortalAPI{
         return result;
       })
     .catch(error => {
+      if(!this.IsJson(error))
+      {
+        this.isRequesting = false
+        toastr.error("Pleas try again", 'Error!')
+        return [];
+      }
       this.isRequesting = false
       toastr.error(error, 'Error!')
       return [];
@@ -40,12 +46,25 @@ export class TestPortalAPI{
         return result;
       })
     .catch(errorLog => {
+      if(!this.IsJson(errorLog))
+      {
+        this.isRequesting = false
+        toastr.error("Pleas try again", 'Error!')
+        return [];
+      }
       this.isRequesting = false
       toastr.error(errorLog, 'Error!')
       return [];
     });  
   }
 
-  
+  IsJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 
 }

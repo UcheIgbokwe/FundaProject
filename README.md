@@ -12,7 +12,7 @@ Application was built using clean architecture, SOLID principles.
 * Aurelia Framework
 * NodeJs 
 * Http Client Factory
-* Polly policies (To handle Http call retries)
+* Polly policies (To handle Http call retries and rate limiting)
 * XUnit
 * Ensure port 7024, 8080 and 5156 are available
 
@@ -66,7 +66,7 @@ The [HTTP Service](src/Infrastructure/Services/HttpServices.cs)  has three metho
 
 - GetAgentsRankedByMostPropertiesAndGarden : This streamlines the data gotten from `GetAllPropertyData` based on the zo query provided to a limit of top 10 agents ranked by number of properties. The difference between this and `GetAgentsRankedByMostProperties` is in the zo query.
 
-- The [Polly service](src/API/Extensions/ApplicationServiceExtensions.cs) handles retry policies for gateway time outs and service unavailable.
+- The [Polly service](src/API/Extensions/ApplicationServiceExtensions.cs) handles retry policies for gateway time outs, service unavailable and rate limiting.
 
 - Exception handlers are setup to manage too many requests, unauthorized and generic error responses from the API.
 

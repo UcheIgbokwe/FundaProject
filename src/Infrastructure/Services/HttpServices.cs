@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -8,6 +9,8 @@ using Infrastructure.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Polly;
+using Polly.RateLimit;
 using src.Domain.Entities;
 using src.Domain.Interface;
 using src.Infrastructure.Helpers;
@@ -53,45 +56,54 @@ namespace src.Infrastructure.Services
         }
         public async Task<List<PropertyDataModel>> GetAllPropertyData(string type, string zo)
         {
+            //Set a rate limit for a period of 1 minute
+            var rateLimit = Policy.RateLimitAsync(100, TimeSpan.FromMinutes(1));
             var listedProperty = new List<PropertyDataModel>();
-            bool pageAvailable = true;
-            int page = 1;
-            var client = _clientFactory.CreateClient("fundaPartner");
-            client.DefaultRequestHeaders.Accept.Clear();
-
-            var builder = new UriBuilder(_config["FundaApi:BaseUrl"]);
-            while (pageAvailable)
+            try
             {
-                var query = HttpUtility.ParseQueryString(builder.Query);
-                query["type"] = type;
-                query["zo"] = zo;
-                query["page"] = page.ToString();
-                query["pagesize"] = "25";
-                builder.Query = query.ToString();
-
-                var url = builder.ToString();
-
-                using var response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode)
+                bool pageAvailable = true;
+                int page = 1;
+                var client = _clientFactory.CreateClient("fundaPartner");
+                client.DefaultRequestHeaders.Accept.Clear();
+                var builder = new UriBuilder(_config["FundaApi:BaseUrl"]);
+                while (pageAvailable)
                 {
-                    var resp = JsonConvert.DeserializeObject<ListedPropertyModel>(response.Content.ReadAsStringAsync().Result);
-                    listedProperty.AddRange(resp?.Objects!);
-                    //Check if number of pages have been exceeded and return false to stop loop.
-                    if(page > resp?.Paging?.AantalPaginas)
+                    await Task.Delay(300);
+                    var query = HttpUtility.ParseQueryString(builder.Query);
+                    query["type"] = type;
+                    query["zo"] = zo;
+                    query["page"] = page.ToString();
+                    query["pagesize"] = "25";
+                    builder.Query = query.ToString();
+
+                    var url = builder.ToString();
+
+                    using var response = await rateLimit.ExecuteAsync(() => client.GetAsync(url)) ;
+                    if (response.IsSuccessStatusCode)
                     {
-                        pageAvailable = false;
+                        var resp = JsonConvert.DeserializeObject<ListedPropertyModel>(response.Content.ReadAsStringAsync().Result);
+                        listedProperty.AddRange(resp?.Objects!);
+                        //Check if number of pages have been exceeded and return false to stop loop.
+                        if(page > resp?.Paging?.AantalPaginas)
+                        {
+                            pageAvailable = false;
+                        }else{
+                            page ++;
+                        }
+                    }
+                    else if(response.StatusCode == System.Net.HttpStatusCode.TooManyRequests){
+                        throw new TooManyRequestException("Kindly try again");
+                    }
+                    else if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized){
+                        throw new UnauthorizedException("Kindly confirm authorization");
                     }else{
-                        page ++;
+                        throw new AppException("An Error occured");
                     }
                 }
-                else if(response.StatusCode == System.Net.HttpStatusCode.TooManyRequests){
-                    throw new TooManyRequestException("Kindly try again");
-                }
-                else if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized){
-                    throw new UnauthorizedException("Kindly confirm authorization");
-                }else{
-                    throw new AppException("An Error occured");
-                }
+            }
+            catch (RateLimitRejectedException)
+            {
+                throw new TooManyRequestException("Kindly try again");
             }
             return listedProperty;
         }
